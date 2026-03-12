@@ -303,7 +303,7 @@
     }
     
     /* Inputs */
-    input[type="text"], select, textarea, .rich-text-box {
+    input[type="text"], input[type="file"], select, textarea, .rich-text-box {
         width: 100%;
         padding: 6px 8px;
         border: 1px solid #ccc;
@@ -611,6 +611,15 @@
         document.getElementById('requestInfoModal').style.display = 'none';
     }
 
+    // Dynamic show/hide for Address Validation file upload
+    function toggleAddressAttachment() {
+        var checkbox = document.getElementById('address_val_checkbox');
+        var attachmentGroup = document.getElementById('address_attachment_group');
+        if (checkbox && attachmentGroup) {
+            attachmentGroup.style.display = checkbox.checked ? 'flex' : 'none';
+        }
+    }
+
     // Toggle Functions for ALICE, Chat, and Engage Menu
     function toggleAlicePopup() {
         var popup = document.getElementById('alicePopup');
@@ -839,7 +848,6 @@
                             <label>RFP/RFI</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="rfp_rfi" value="Yes" checked> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="rfp_rfi" value="No"> No</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -999,7 +1007,6 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <label>PCM Needed</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="pcm_needed" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="pcm_needed" value="No"> No</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1012,7 +1019,6 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <label>GIS Engaged</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="gis_engaged" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="gis_engaged" value="No"> No</label>
                             </div>
                         </div>
                     </div>
@@ -1123,14 +1129,12 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <label>Address Validation</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="task_address_val" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="task_address_val" value="No"> No</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Design Required</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="task_design" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="task_design" value="No"> No</label>
                             </div>
                         </div>
                     </div>
@@ -1139,14 +1143,12 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <label>Customer Pricing Required</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="task_cust_pricing" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="task_cust_pricing" value="No"> No</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Contracting Required</label>
                             <div class="input-wrapper multi-field">
                                 <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="task_contracting" value="Yes"> Yes</label>
-                                <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="checkbox" name="task_contracting" value="No"> No</label>
                             </div>
                         </div>
                     </div>
@@ -1323,16 +1325,6 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                     <label style="width: auto; padding: 0; text-align: left;"><input type="checkbox"> Notify</label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Quoting Specialist(s)</label>
-                                <div class="input-wrapper multi-field" style="width: 65%;">
-                                    <div class="input-with-icon" style="flex-grow: 1;">
-                                        <input type="text" value="">
-                                        <button class="icon-btn">&#128269;</button> 
-                                    </div>
-                                    <label style="width: auto; padding: 0; text-align: left;"><input type="checkbox"> Notify</label>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1349,25 +1341,25 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <div class="form-group">
                                 <label>Customer type (New/Existing)</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="Existing">
+                                    <input type="text" value="Existing" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Contract ID (New / Existing)</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>CLE with LE ID & VLE</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>VLE</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                         </div>
@@ -1375,25 +1367,25 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <div class="form-group">
                                 <label>Currency</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Pricing plan - what's the intent (TX vs RTB)</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Circuit - Firm/Budgetary</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="text" value="" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Contract Term (Quote level)<br>Access Term (Product level)<br>CPE Term (Product level)</label>
                                 <div class="input-wrapper">
-                                    <textarea></textarea>
+                                    <textarea class="required-input" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1419,15 +1411,6 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Kickoff Call Date</label>
-                                <div class="input-wrapper">
-                                    <div class="input-with-icon">
-                                        <input type="text" placeholder="YYYY-MM-DD">
-                                        <button class="icon-btn">&#128197;</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label>PCM Due date</label>
                                 <div class="input-wrapper">
                                     <div class="input-with-icon">
@@ -1438,15 +1421,6 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             </div>
                         </div>
                         <div class="column">
-                            <div class="form-group">
-                                <label>PCM Approved Pricing Completion</label>
-                                <div class="input-wrapper">
-                                    <div class="input-with-icon">
-                                        <input type="text" placeholder="YYYY-MM-DD">
-                                        <button class="icon-btn">&#128197;</button>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label>RFP Submission Date</label>
                                 <div class="input-wrapper">
@@ -1471,8 +1445,16 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                         <div class="column">
                             <div class="form-group">
                                 <label>Address Validation Done</label>
+                                <div class="input-wrapper multi-field">
+                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;">
+                                        <input type="checkbox" id="address_val_checkbox" onchange="toggleAddressAttachment()"> Yes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" id="address_attachment_group" style="display: none;">
+                                <label>Address List Attachment</label>
                                 <div class="input-wrapper">
-                                    <input type="text" value="">
+                                    <input type="file" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1497,6 +1479,12 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                 <label># Sites</label>
                                 <div class="input-wrapper">
                                     <input type="text" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Site List Attachment</label>
+                                <div class="input-wrapper">
+                                    <input type="file" class="required-input" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1528,27 +1516,7 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <div class="form-group">
                                 <label>If there are multiple Quotes, does PCM want the quotes linked together in a Deal?</label>
                                 <div class="input-wrapper multi-field">
-                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="radio" name="scope_linked" value="Yes"> Yes</label>
-                                    <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="radio" name="scope_linked" value="No"> No</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>CFS is required to be filled in by the COE</label>
-                                <div class="input-wrapper multi-field">
-                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="radio" name="scope_cfs" value="Yes"> Yes</label>
-                                    <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="radio" name="scope_cfs" value="No"> No</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Manual or extenal pricing scenarios will be handeld by the respective team</label>
-                                <div class="input-wrapper">
-                                    <textarea placeholder="Applicable if CFS is commited by COE team"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Agree on unique ID (e.g. PQREFID). Which is the key to link data across Solution, Quotes, etc.</label>
-                                <div class="input-wrapper">
-                                    <textarea placeholder="If yes, capture the details of PQ ref id"></textarea>
+                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="scope_linked" value="Yes"> Yes</label>
                                 </div>
                             </div>
                         </div>
@@ -1608,15 +1576,13 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             <div class="form-group">
                                 <label>Maintenance : Yes/No</label>
                                 <div class="input-wrapper multi-field">
-                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="radio" name="cpe_maint" value="Yes"> Yes</label>
-                                    <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="radio" name="cpe_maint" value="No"> No</label>
+                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="cpe_maint" value="Yes"> Yes</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Installation : Yes/No</label>
                                 <div class="input-wrapper multi-field">
-                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="radio" name="cpe_inst" value="Yes"> Yes</label>
-                                    <label style="width: auto; padding: 6px 0 0 0; text-align: left;"><input type="radio" name="cpe_inst" value="No"> No</label>
+                                    <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="cpe_inst" value="Yes"> Yes</label>
                                 </div>
                             </div>
                         </div>

@@ -1144,15 +1144,22 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Iteration Choice</label>
-                            <div class="input-wrapper">
-                                <input type="text">
+                            <label>Iteration/Rework</label>
+                            <div class="input-wrapper multi-field">
+                                <label style="width: auto; padding: 6px 15px 0 0; text-align: left;"><input type="checkbox" name="iteration_rework_check" value="Yes"> Yes</label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Iteration Reason</label>
+                            <label>Iteration Rework</label>
                             <div class="input-wrapper">
-                                <input type="text">
+                                <select>
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="Addition of sites">Addition of sites</option>
+                                    <option value="Deletion of sites">Deletion of sites</option>
+                                    <option value="Technology change">Technology change</option>
+                                    <option value="Solution change">Solution change</option>
+                                    <option value="CPE change">CPE change</option>
+                                </select>
                             </div>
                         </div>
                     </div>

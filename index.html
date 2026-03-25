@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -681,6 +682,15 @@
         }
     }
 
+    // Toggle conditional fields for "Orders Required" in Amendment Tab
+    function toggleOrdersFields() {
+        var checkbox = document.getElementById('orders_required_checkbox');
+        var fieldsGroup = document.getElementById('amendment_orders_fields');
+        if (checkbox && fieldsGroup) {
+            fieldsGroup.style.display = checkbox.checked ? 'flex' : 'none';
+        }
+    }
+
     // Toggle Functions for ALICE, Chat, and Engage Menu
     function toggleAlicePopup() {
         var popup = document.getElementById('alicePopup');
@@ -745,10 +755,32 @@
         container.appendChild(wrapper);
     }
 
-    // Toggle Hold Reason Field based on Status
+    // Add Validator Logic
+    function addValidator() {
+        var container = document.getElementById('validator-container');
+        var wrapper = document.createElement('div');
+        wrapper.className = 'input-with-icon';
+        wrapper.innerHTML = '<input type="text" value=""><button class="icon-btn">&#128269;</button>';
+        container.appendChild(wrapper);
+    }
+
+    // Toggle Hold Reason Field based on Status (Main Form)
     function toggleHoldReason() {
         var statusSelect = document.getElementById('main_status_dropdown');
         var holdReasonGroup = document.getElementById('hold_reason_group');
+        if (statusSelect && holdReasonGroup) {
+            if (statusSelect.value === 'On Hold') {
+                holdReasonGroup.style.display = 'flex';
+            } else {
+                holdReasonGroup.style.display = 'none';
+            }
+        }
+    }
+
+    // Toggle Hold Reason Field based on Status (Address Validation Tab)
+    function toggleAddressHoldReason() {
+        var statusSelect = document.getElementById('address_status_dropdown');
+        var holdReasonGroup = document.getElementById('address_hold_reason_group');
         if (statusSelect && holdReasonGroup) {
             if (statusSelect.value === 'On Hold') {
                 holdReasonGroup.style.display = 'flex';
@@ -875,9 +907,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Products</label>
+                            <label>Proposed Solution<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                             <div class="input-wrapper">
-                                <input type="text" value="">
+                                <select multiple style="height: auto; min-height: 100px;">
+                                    <option value="Network only">Network only</option>
+                                    <option value="Managed">Managed</option>
+                                    <option value="Wave">Wave</option>
+                                    <option value="Eline">Eline</option>
+                                    <option value="CPE Only">CPE Only</option>
+                                    <option value="CPE with Maintenance">CPE with Maintenance</option>
+                                    <option value="VOIP">VOIP</option>
+                                    <option value="IPCC">IPCC</option>
+                                    <option value="Webex">Webex</option>
+                                    <option value="Legacy">Legacy</option>
+                                    <option value="Others">Others</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1009,10 +1053,9 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Rework Reasons</label>
+                            <label>Rework Reasons<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                             <div class="input-wrapper">
-                                <select>
-                                    <option value="" disabled selected>Select Reason</option>
+                                <select multiple style="height: auto; min-height: 90px;">
                                     <option value="Addition of Sites">Addition of Sites</option>
                                     <option value="Deletion of Sites">Deletion of Sites</option>
                                     <option value="Technology Change">Technology Change</option>
@@ -1084,10 +1127,9 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Iteration/Scenario</label>
+                            <label>Iteration/Scenario<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                             <div class="input-wrapper">
-                                <select>
-                                    <option value="" disabled selected>Choose Scenario</option>
+                                <select multiple style="height: auto; min-height: 110px;">
                                     <option value="Product">Product</option>
                                     <option value="Bandwidth">Bandwidth</option>
                                     <option value="CPE contacting">CPE contacting</option>
@@ -1675,10 +1717,9 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Proposed Solution</label>
+                                    <label>Proposed Solution<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                                     <div class="input-wrapper">
-                                        <select>
-                                            <option value="" disabled selected>Select an option</option>
+                                        <select multiple style="height: auto; min-height: 100px;">
                                             <option value="Network only">Network only</option>
                                             <option value="Managed">Managed</option>
                                             <option value="Wave">Wave</option>
@@ -1792,10 +1833,9 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Billing Method</label>
+                                    <label>Billing Method<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                                     <div class="input-wrapper">
-                                        <select>
-                                            <option value="" disabled selected>Select Billing Method</option>
+                                        <select multiple style="height: auto; min-height: 80px;">
                                             <option value="MRP">MRP</option>
                                             <option value="Purchase">Purchase</option>
                                             <option value="Customer Provided">Customer Provided</option>
@@ -1904,6 +1944,16 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                         <label style="width: auto; padding: 0; text-align: left;"><input type="checkbox"> Notify</label>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Legal POC</label>
+                                    <div class="input-wrapper multi-field" style="width: 65%;">
+                                        <div class="input-with-icon" style="flex-grow: 1;">
+                                            <input type="text" value="">
+                                            <button class="icon-btn">&#128269;</button> 
+                                        </div>
+                                        <label style="width: auto; padding: 0; text-align: left;"><input type="checkbox"> Notify</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1935,6 +1985,149 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                     <label>Address List</label>
                                     <div class="input-wrapper">
                                         <input type="file" class="required-input" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-section">
+                    <button type="button" class="collapsible-header" onclick="toggleSection(this)">
+                        REQUEST METRICS
+                        <span class="toggle-icon">&#9660;</span>
+                    </button>
+                    <div class="collapsible-content">
+                        <div class="form-columns">
+                            <div class="column">
+                                <div class="form-group">
+                                    <label>Request Received Date</label>
+                                    <div class="input-wrapper">
+                                        <div class="input-with-icon">
+                                            <input type="text" placeholder="YYYY-MM-DD">
+                                            <button class="icon-btn">&#128197;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Acknowledged Date</label>
+                                    <div class="input-wrapper">
+                                        <div class="input-with-icon">
+                                            <input type="text" placeholder="YYYY-MM-DD">
+                                            <button class="icon-btn">&#128197;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Request Completion Date</label>
+                                    <div class="input-wrapper">
+                                        <div class="input-with-icon">
+                                            <input type="text" placeholder="YYYY-MM-DD">
+                                            <button class="icon-btn">&#128197;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <div class="input-wrapper">
+                                        <select id="address_status_dropdown" onchange="toggleAddressHoldReason()">
+                                            <option value="" disabled selected>Select Status</option>
+                                            <option value="New">New</option>
+                                            <option value="Under Review">Under Review</option>
+                                            <option value="Pending Assignment">Pending Assignment</option>
+                                            <option value="On Hold">On Hold</option>
+                                            <option value="Working">Working</option>
+                                            <option value="Closed - Complete">Closed - Complete</option>
+                                            <option value="Closed - Incomplete">Closed - Incomplete</option>
+                                            <option value="Rejected">Rejected</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="address_hold_reason_group" style="display: none;">
+                                    <label>Hold Reason</label>
+                                    <div class="input-wrapper">
+                                        <select>
+                                            <option value="" disabled selected>Select Reason</option>
+                                            <option value="With GL">With GL</option>
+                                            <option value="PCM">PCM</option>
+                                            <option value="IT">IT</option>
+                                            <option value="AT">AT</option>
+                                            <option value="Legal">Legal</option>
+                                            <option value="CD Approval">CD Approval</option>
+                                            <option value="SA for design">SA for design</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Case Business Days (Days Since Received)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Validated By</label>
+                                    <div class="input-wrapper" style="flex-direction: column; gap: 8px;">
+                                        <div id="validator-container" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+                                            <div class="input-with-icon">
+                                                <input type="text" value="">
+                                                <button class="icon-btn">&#128269;</button>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn" style="align-self: flex-start; min-width: 0; padding: 4px 8px; font-size: 11px;" onclick="addValidator()">+ Add Validator</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="form-group">
+                                    <label>RFP Case ID</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address Auto Validated</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Manual Validated</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>VISE/Sheet parser ID</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Invalid Address</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Major Fallout countries</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>CoE Region</label>
+                                    <div class="input-wrapper">
+                                        <select>
+                                            <option value="" disabled selected>Select Region</option>
+                                            <option value="International">International</option>
+                                            <option value="Americas">Americas</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Closure Comments</label>
+                                    <div class="input-wrapper">
+                                        <textarea></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -2147,10 +2340,9 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Product to be Added</label>
+                                    <label>Product to be Added<br><span style="font-size: 10px; font-weight: normal; color: #777;">(Select One or More Options)</span></label>
                                     <div class="input-wrapper">
-                                        <select>
-                                            <option value="" disabled selected>Choose Product</option>
+                                        <select multiple style="height: auto; min-height: 80px;">
                                             <option value="Product 1">Product 1</option>
                                             <option value="Product 2">Product 2</option>
                                             <option value="Product 3">Product 3</option>
@@ -2188,15 +2380,42 @@ It also mentions "Cisco managed routers (MWAN) on MPLS network" which suggests a
                                 </div>
                                 <div class="form-group">
                                     <label>Orders Required?</label>
-                                    <div class="input-wrapper">
-                                        <select>
-                                            <option value="" disabled selected>Select Order Type</option>
-                                            <option value="BAN information">BAN information</option>
-                                            <option value="LCON">LCON</option>
-                                            <option value="DMARC">DMARC</option>
-                                            <option value="Existing services if any">Existing services if any</option>
-                                            <option value="Use of Access">Use of Access</option>
-                                        </select>
+                                    <div class="input-wrapper multi-field">
+                                        <label style="width: auto; padding: 6px 15px 0 0; text-align: left;">
+                                            <input type="checkbox" id="orders_required_checkbox" onchange="toggleOrdersFields()"> Yes
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="amendment_orders_fields" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
+                                    <div class="form-group">
+                                        <label>BAN information</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>LCON</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>DMARC</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Existing services (if any)</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Use of Access</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" value="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
